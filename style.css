@@ -1,0 +1,308 @@
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Special+Elite&display=swap');
+
+:root {
+    --bg-paper: #faf9f6;
+    --ink-color: #2c2c2c;
+    --accent-cyan: #00e5ff;
+    --accent-magenta: #ff00ff;
+    --accent-yellow: #ffea00;
+    --shadow-distance: 4px;
+    --border-width: 2px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-paper);
+    color: var(--ink-color);
+    font-family: 'Special Elite', monospace; /* Typewriter feel */
+    margin: 0;
+    padding: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Patrick Hand', cursive; /* Marker feel */
+    font-weight: 400; /* Let the font do the heavy lifting */
+    margin-top: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    position: relative;
+    z-index: 10;
+}
+
+/* --- Layout Wrappers --- */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+section {
+    position: relative;
+}
+
+/* --- Comic Components --- */
+
+/* 1. The Panel (Box) */
+.comic-panel {
+    background: white;
+    border: var(--border-width) solid var(--ink-color);
+    box-shadow: var(--shadow-distance) var(--shadow-distance) 0px var(--ink-color);
+    padding: 2rem;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.comic-panel:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: calc(var(--shadow-distance) + 2px) calc(var(--shadow-distance) + 2px) 0px var(--ink-color);
+}
+
+/* 2. Speech Bubble */
+.speech-bubble {
+    background: white;
+    border: var(--border-width) solid var(--ink-color);
+    border-radius: 50% / 10%; /* Elliptical-ish */
+    padding: 30px;
+    position: relative;
+    text-align: center;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; /* Position the tail */
+    left: 20%;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-top-color: var(--ink-color);
+    border-bottom: 0;
+    border-left: 0;
+    margin-left: -10px;
+    margin-bottom: -2px;
+}
+/* Masking the tail center to make it look outlined */
+.speech-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: -15px; 
+    left: 20%;
+    width: 0;
+    height: 0;
+    border: 17px solid transparent;
+    border-top-color: white; /* Match bg */
+    border-bottom: 0;
+    border-left: 0;
+    margin-left: -8px;
+    z-index: 2;
+}
+
+
+/* 3. Action Buttons */
+.btn-comic {
+    display: inline-block;
+    background: var(--accent-yellow);
+    border: var(--border-width) solid var(--ink-color);
+    padding: 10px 25px;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.2rem;
+    font-weight: bold;
+    box-shadow: 3px 3px 0 var(--ink-color);
+    cursor: pointer;
+    transition: all 0.1s ease;
+    text-align: center;
+}
+
+.btn-comic:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 var(--ink-color);
+}
+
+.btn-comic.secondary {
+    background: white;
+}
+
+/* --- Specific Sections --- */
+
+/* HERO */
+.hero-header {
+    text-align: center;
+    border-bottom: var(--border-width) solid var(--ink-color);
+    padding-bottom: 40px;
+    margin-bottom: 20px;
+}
+
+.hero-title {
+    font-size: 4rem;
+    line-height: 1;
+    transform: rotate(-2deg);
+    text-shadow: 3px 3px 0 var(--accent-cyan);
+    margin-bottom: 10px;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    background: var(--ink-color);
+    color: white;
+    display: inline-block;
+    padding: 5px 15px;
+    transform: rotate(1deg);
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.skill-sticker {
+    background: var(--accent-cyan);
+    border: 2px solid var(--ink-color);
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.1rem;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    /* Individual rotations will be added via JS or nth-child for randomness */
+}
+.skill-sticker:nth-child(2n) { background: var(--accent-magenta); color: white;}
+.skill-sticker:nth-child(3n) { background: var(--accent-yellow); color: black;}
+.skill-sticker:nth-child(4n) { background: white; color: black;}
+
+.experience-strip {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    border-left: 4px dashed var(--ink-color);
+    padding-left: 30px;
+    margin-left: 20px;
+}
+
+.job-card {
+    position: relative;
+}
+
+.job-card::before {
+    content: ''; /* The dot on the timeline */
+    position: absolute;
+    left: -44px; /* Adjust based on padding/border */
+    top: 20px;
+    width: 20px;
+    height: 20px;
+    background: var(--ink-color);
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.job-role {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--accent-magenta);
+}
+
+.job-company {
+    font-size: 1.2rem;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.project-card h3 {
+    background: var(--ink-color);
+    color: white;
+    display: inline-block;
+    padding: 5px 10px;
+    transform: skew(-5deg);
+}
+
+/* Footer "Torn Paper" effect attempt (simplified) */
+footer {
+    margin-top: 60px;
+    text-align: center;
+    padding: 40px;
+    border-top: var(--border-width) solid var(--ink-color);
+    background: white;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Random utility mainly for JS usage, but some CSS defaults */
+.rotate-1 { transform: rotate(1deg); }
+.rotate-n1 { transform: rotate(-1deg); }
+.rotate-2 { transform: rotate(2deg); }
+.rotate-n2 { transform: rotate(-2deg); }
+
+/* Stats Strip */
+.stats-strip {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.stat-box {
+    flex: 1;
+    min-width: 150px;
+    text-align: center;
+    background: var(--ink-color);
+    color: white;
+    padding: 15px;
+    border: 2px solid var(--ink-color);
+    /* "Offset" border effect using pseudo not easy on solid bg, standard box shadow here */
+    box-shadow: 5px 5px 0 var(--accent-cyan);
+}
+.stat-box h3 {
+    font-size: 2.5rem;
+    margin: 0;
+    color: var(--accent-yellow);
+}
+.stat-box p {
+    font-family: 'Patrick Hand', cursive;
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+/* Responsiveness */
+@media (max-width: 600px) {
+    .hero-title {
+        font-size: 3rem;
+    }
+    .stats-strip {
+        flex-direction: column;
+    }
+    .experience-strip {
+        margin-left: 10px;
+        padding-left: 20px;
+    }
+    .job-card::before {
+        left: -33px;
+    }
+}
